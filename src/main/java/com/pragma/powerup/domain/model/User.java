@@ -5,14 +5,14 @@ import java.util.Date;
 public class User {
     private String name;
     private String lastName;
-    private int documentId;
-    private int phoneNumber;
+    private String documentId;
+    private String phoneNumber;
     private Date birthDate;
     private String email;
     private String password;
     private int rolId;
 
-    public User(String name, String lastName, int documentId, int phoneNumber, Date birthDate, String email, String password, int rolId) {
+    public User(String name, String lastName, String documentId, String phoneNumber, Date birthDate, String email, String password, int rolId) {
         this.name = name;
         this.lastName = lastName;
         this.documentId = documentId;
@@ -42,19 +42,19 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(int documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
