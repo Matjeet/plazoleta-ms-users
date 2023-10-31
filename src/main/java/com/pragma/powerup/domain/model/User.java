@@ -3,6 +3,7 @@ package com.pragma.powerup.domain.model;
 import java.util.Date;
 
 public class User {
+    private int id;
     private String name;
     private String lastName;
     private String documentId;
@@ -12,7 +13,8 @@ public class User {
     private String password;
     private int rolId;
 
-    public User(String name, String lastName, String documentId, String phoneNumber, Date birthDate, String email, String password, int rolId) {
+    public User(int id, String name, String lastName, String documentId, String phoneNumber, Date birthDate, String email, String password, int rolId) {
+        this.id = id;
         this.name = name;
         this.lastName = lastName;
         this.documentId = documentId;
@@ -24,6 +26,14 @@ public class User {
     }
 
     public User() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
