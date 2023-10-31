@@ -1,5 +1,6 @@
 package com.pragma.powerup.application.dto.response;
 
+import com.pragma.powerup.application.dto.RoleDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +16,5 @@ public class UserResponseDTO {
     private Date birthDate;
     private String email;
     private String password;
-    private int rolId;
+    private RoleDTO role;
 }
