@@ -1,6 +1,6 @@
 package com.pragma.powerup.domain.model;
 
-public class Rol {
+public class Role {
     private int id;
     private String name;
 }

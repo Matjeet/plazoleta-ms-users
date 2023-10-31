@@ -11,9 +11,9 @@ public class User {
     private Date birthDate;
     private String email;
     private String password;
-    private int rolId;
+    private int roleId;
 
-    public User(int id, String name, String lastName, String documentId, String phoneNumber, Date birthDate, String email, String password, int rolId) {
+    public User(int id, String name, String lastName, String documentId, String phoneNumber, Date birthDate, String email, String password, int roleId) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -22,7 +22,7 @@ public class User {
         this.birthDate = birthDate;
         this.email = email;
         this.password = password;
-        this.rolId = rolId;
+        this.roleId = roleId;
     }
 
     public User() {
@@ -92,11 +92,11 @@ public class User {
         this.password = password;
     }
 
-    public int getRolId() {
-        return rolId;
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRolId(int rolId) {
-        this.rolId = rolId;
+    public void setRolId(int roleId) {
+        this.roleId = roleId;
     }
 }
