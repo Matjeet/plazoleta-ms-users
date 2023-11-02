@@ -10,10 +10,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring",
         unmappedTargetPolicy = ReportingPolicy.ERROR,
         unmappedSourcePolicy = ReportingPolicy.IGNORE)
-public interface IUserResquestMapper {
-    User toUser(UserRequestDTO userResquestDTO);
+public interface IUserRequestMapper {
+    User toUser(UserRequestDTO userRequestDTO);
 
-    @Mapping(source = "userResquestDTO.role.name", target = "name")
+    @Mapping(source = "userRequestDTO.role.name", target = "name")
     Role toRole(UserRequestDTO userRequestDTO);
 
 }

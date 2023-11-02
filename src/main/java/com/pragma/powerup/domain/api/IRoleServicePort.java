@@ -2,6 +2,10 @@ package com.pragma.powerup.domain.api;
 
 import com.pragma.powerup.domain.model.Role;
 
+import java.util.List;
+
 public interface IRoleServicePort {
-    void saveRol(Role rol);
+    Role saveRol(Role rol);
+
+    List<Role> getAllRoles();
 }
