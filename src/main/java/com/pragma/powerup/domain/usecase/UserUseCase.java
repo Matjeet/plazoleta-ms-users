@@ -26,7 +26,7 @@ public class UserUseCase implements IUserServicePort {
                 .find();
 
         boolean validPhoneNumber = Pattern.compile(
-                "^\\+[0-9]{13}$",
+                "^\\+[0-9]{12}$",
                 Pattern.CASE_INSENSITIVE
                 )
                 .matcher(user.getPhoneNumber())

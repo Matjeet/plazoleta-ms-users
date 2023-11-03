@@ -4,5 +4,5 @@ import com.pragma.powerup.application.dto.request.UserRequestDTO;
 
 public interface IUserHandler {
 
-    void saveUser(UserRequestDTO userResquestDto);
+    void saveUser(UserRequestDTO userRequestDto);
 }

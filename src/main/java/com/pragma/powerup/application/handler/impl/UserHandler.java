@@ -28,7 +28,7 @@ public class UserHandler implements IUserHandler {
     public void saveUser(UserRequestDTO userRequestDto) {
         Role role = roleServicePort.saveRol(userRequestMapper.toRole(userRequestDto));
         User user = userRequestMapper.toUser(userRequestDto);
-        user.setRolId(role.getId());
+        user.setRoleId(role.getId());
         userServicePort.saveUser(user);
     }
 }

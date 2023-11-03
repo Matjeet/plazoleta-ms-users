@@ -16,12 +16,13 @@ public class RoleUseCase implements IRoleServicePort {
 
     @Override
     public Role saveRol(Role rol) {
-        irolePersistencePort.saveRol(rol);
-        return rol;
+        return irolePersistencePort.saveRol(rol);
     }
 
     @Override
-    public List<Role> getAllRoles() {
-        return null;
+    public int getRoleId(String name) {
+        return irolePersistencePort.getRoleId(name);
     }
+
+
 }

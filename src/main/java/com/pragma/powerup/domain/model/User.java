@@ -96,7 +96,7 @@ public class User {
         return roleId;
     }
 
-    public void setRolId(int roleId) {
+    public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
 }
