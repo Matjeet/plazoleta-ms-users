@@ -16,7 +16,8 @@ public class RoleUseCase implements IRoleServicePort {
 
     @Override
     public Role saveRol(Role rol) {
-        return irolePersistencePort.saveRol(rol);
+        Role role = irolePersistencePort.saveRol(rol);
+        return role;
     }
 
     @Override

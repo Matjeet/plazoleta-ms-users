@@ -12,8 +12,11 @@ public class RoleJpaAdapter implements IRolePersistencePort {
     private final IRoleEntityMapper roleEntityMapper;
     private  final IRoleRepository roleRepository;
     @Override
-    public Role saveRol(Role rol) {
-        return roleEntityMapper.toRole(roleRepository.save(roleEntityMapper.toEntity(rol)));
+    public Role saveRol(Role role) {
+        if (roleRepository.findByName(roleEntityMapper.toEntity(role).getName()).isPresent()){
+            return roleEntityMapper.toRole(roleRepository.getByName(role.getName()));
+        }
+        return roleEntityMapper.toRole(roleRepository.save(roleEntityMapper.toEntity(role)));
     }
 
     @Override
