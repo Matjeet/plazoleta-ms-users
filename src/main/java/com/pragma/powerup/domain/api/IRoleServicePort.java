@@ -7,5 +7,4 @@ import java.util.List;
 public interface IRoleServicePort {
     Role saveRol(Role rol);
 
-    int getRoleId(String name);
 }

@@ -4,7 +4,6 @@ import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.domain.spi.IUserPersistencePort;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UserUseCase implements IUserServicePort {
@@ -26,14 +25,14 @@ public class UserUseCase implements IUserServicePort {
                 .find();
 
         boolean validPhoneNumber = Pattern.compile(
-                "^\\+[0-9]{12}$",
+                "^\\+\\d{12}$",
                 Pattern.CASE_INSENSITIVE
                 )
                 .matcher(user.getPhoneNumber())
                 .find();
 
         boolean validDocumentId = Pattern.compile(
-                "^[0-9]+$",
+                "^\\d+$",
                 Pattern.CASE_INSENSITIVE
         ).matcher(user.getDocumentId()).find();
 

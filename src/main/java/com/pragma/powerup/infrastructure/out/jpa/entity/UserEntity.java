@@ -17,9 +17,13 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    @Column(name = "lastName")
     private String lastName;
+    @Column(name = "documentId")
     private String documentId;
+    @Column(name = "phoneNumber")
     private String phoneNumber;
+    @Column(name = "birthDate")
     private Date birthDate;
     private String email;
     private String password;

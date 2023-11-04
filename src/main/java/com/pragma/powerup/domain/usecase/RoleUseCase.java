@@ -4,8 +4,6 @@ import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.spi.IRolePersistencePort;
 
-import java.util.List;
-
 public class RoleUseCase implements IRoleServicePort {
 
     private final IRolePersistencePort irolePersistencePort;
@@ -16,14 +14,7 @@ public class RoleUseCase implements IRoleServicePort {
 
     @Override
     public Role saveRol(Role rol) {
-        Role role = irolePersistencePort.saveRol(rol);
-        return role;
+        return irolePersistencePort.saveRol(rol);
     }
-
-    @Override
-    public int getRoleId(String name) {
-        return irolePersistencePort.getRoleId(name);
-    }
-
 
 }
