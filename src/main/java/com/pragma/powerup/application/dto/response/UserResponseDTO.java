@@ -4,6 +4,7 @@ import com.pragma.powerup.application.dto.RoleDTO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -13,7 +14,7 @@ public class UserResponseDTO {
     private String lastName;
     private String documentId;
     private String phoneNumber;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String email;
     private String password;
     private RoleDTO role;

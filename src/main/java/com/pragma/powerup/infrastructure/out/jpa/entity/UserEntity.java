@@ -3,6 +3,7 @@ package com.pragma.powerup.infrastructure.out.jpa.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -24,7 +25,7 @@ public class UserEntity {
     @Column(name = "phoneNumber")
     private String phoneNumber;
     @Column(name = "birthDate")
-    private Date birthDate;
+    private LocalDate birthDate;
     private String email;
     private String password;
     private int roleId;
