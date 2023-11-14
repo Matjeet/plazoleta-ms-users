@@ -1,6 +1,7 @@
 package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.dto.request.UserRequestDTO;
+import com.pragma.powerup.application.handler.IPasswordHandler;
 import com.pragma.powerup.application.handler.IUserHandler;
 import com.pragma.powerup.application.mapper.IRoleDtoMapper;
 import com.pragma.powerup.application.mapper.request.IUserRequestMapper;
@@ -22,11 +23,13 @@ public class UserHandler implements IUserHandler {
     private final IUserServicePort userServicePort;
     private final IRoleServicePort roleServicePort;
     private final IUserRequestMapper userRequestMapper;
+    private final IPasswordHandler passwordHandler;
     private final IUserResponseMapper userResponseMapper;
     private final IRoleDtoMapper roleDtoMapper;
     @Override
     public void saveUser(UserRequestDTO userRequestDto) {
         Role role = roleServicePort.saveRol(userRequestMapper.toRole(userRequestDto));
+        userRequestDto.setPassword(passwordHandler.encodePassword(userRequestDto.getPassword()));
         User user = userRequestMapper.toUser(userRequestDto);
         user.setRoleId(role.getId());
         userServicePort.saveUser(user);
