@@ -14,7 +14,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     private final IUserEntityMapper userEntityMapper;
     @Override
     public void saveUser(User user) {
-        if(userRepository.findById(userEntityMapper.toEntity(user).getId()).isPresent()) {
+        if(userRepository.findByDocumentIdAndRoleId(user.getDocumentId(), user.getRoleId()).isPresent()) {
             throw new UserAlreadyExistsException();
         }
         userRepository.save(userEntityMapper.toEntity(user));
