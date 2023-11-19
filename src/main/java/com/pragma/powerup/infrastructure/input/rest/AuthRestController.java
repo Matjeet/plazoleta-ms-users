@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
-public class UserRestController {
+public class AuthRestController {
 
     private final IUserHandler userHandler;
 
-    @PostMapping("/")
+    @PostMapping("/login")
     public ResponseEntity<Void> saveUser(@RequestBody UserRequestDTO userRequestDTO){
         userHandler.saveUser(userRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
