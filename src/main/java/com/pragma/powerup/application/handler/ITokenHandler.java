@@ -1,2 +1,6 @@
-package com.pragma.powerup.application.handler;public interface ITokenHandler {
+package com.pragma.powerup.application.handler;
+
+public interface ITokenHandler {
+
+    String createToken();
 }
