@@ -17,7 +17,7 @@ public class AuthRestController {
 
     private final IUserHandler userHandler;
 
-    @PostMapping("/login")
+    @PostMapping("/register")
     public ResponseEntity<Void> saveUser(@RequestBody UserRequestDTO userRequestDTO){
         userHandler.saveUser(userRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).build();
