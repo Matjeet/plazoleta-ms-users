@@ -1,8 +1,8 @@
 package com.pragma.powerup.application.handler;
 
-import com.pragma.powerup.application.dto.request.UserRequestDTO;
+import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 
 public interface IUserHandler {
 
-    void saveUser(UserRequestDTO userRequestDto);
+    void saveUser(RegisterRequestDto registerRequestDto);
 }

@@ -1,6 +1,6 @@
 package com.pragma.powerup.application.mapper.request;
 
-import com.pragma.powerup.application.dto.request.UserRequestDTO;
+import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.model.User;
 import org.mapstruct.Mapper;
@@ -14,9 +14,9 @@ public interface IUserRequestMapper {
 
     @Mapping(source = "userRequestDTO.role.name", target = "name")
     @Mapping(source = "userRequestDTO.role.id", target = "id")
-    Role toRole(UserRequestDTO userRequestDTO);
+    Role toRole(RegisterRequestDto registerRequestDto);
 
     @Mapping(source = "userRequestDTO.role.id", target = "roleId")
-    User toUser(UserRequestDTO userRequestDTO);
+    User toUser(RegisterRequestDto registerRequestDto);
 
 }

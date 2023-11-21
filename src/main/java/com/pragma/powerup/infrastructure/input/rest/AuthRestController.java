@@ -1,6 +1,7 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
-import com.pragma.powerup.application.dto.request.UserRequestDTO;
+import com.pragma.powerup.application.dto.request.RegisterRequestDto;
+import com.pragma.powerup.application.dto.response.AuthResponseDto;
 import com.pragma.powerup.application.handler.IUserHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,8 +19,8 @@ public class AuthRestController {
     private final IUserHandler userHandler;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> saveUser(@RequestBody UserRequestDTO userRequestDTO){
-        userHandler.saveUser(userRequestDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<AuthResponseDto> saveUser(@RequestBody RegisterRequestDto registerRequestDto){
+        userHandler.saveUser(registerRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponseDto());
     }
 }
