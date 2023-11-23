@@ -24,14 +24,17 @@ public class UserHandler implements IUserHandler {
     private final IRoleServicePort roleServicePort;
     private final IUserRequestMapper userRequestMapper;
     private final IPasswordHandler passwordHandler;
-    private final IUserResponseMapper userResponseMapper;
+    private final IAuthResponseMapper authResponseMapper;
+    private final ITokenHandler tokenHandler;
     private final IRoleDtoMapper roleDtoMapper;
     @Override
-    public void saveUser(RegisterRequestDto registerRequestDto) {
+    public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
         Role role = roleServicePort.saveRol(userRequestMapper.toRole(registerRequestDto));
         registerRequestDto.setPassword(passwordHandler.encodePassword(registerRequestDto.getPassword()));
         User user = userRequestMapper.toUser(registerRequestDto);
         user.setRoleId(role.getId());
         userServicePort.saveUser(user);
+
+        return authResponseMapper.toResponse(tokenHandler.createToken());
     }
 }
