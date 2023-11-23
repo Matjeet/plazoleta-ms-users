@@ -1,7 +1,13 @@
 package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.handler.ITokenHandler;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Service
+@RequiredArgsConstructor
+@Transactional
 public class TokenHandler implements ITokenHandler {
 
     private final String ACCESS_TOKEN_SECRET = "fa52f4e13bc9557eb253c02ed25d0ecaf9c37a3e";
