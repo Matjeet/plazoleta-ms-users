@@ -1,13 +1,14 @@
 package com.pragma.powerup.infrastructure.out.jpa.entity;
 
-import com.pragma.powerup.domain.model.Role;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -27,16 +28,18 @@ public class UserEntity implements UserDetails {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private int roleId;
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private transient RoleEntity role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.getName()));
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return email;
     }
 
     @Override
