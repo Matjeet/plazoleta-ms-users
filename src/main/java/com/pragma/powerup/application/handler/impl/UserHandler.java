@@ -37,6 +37,6 @@ public class UserHandler implements IUserHandler {
         user.setRoleId(role.getId());
         userServicePort.saveUser(user);
 
-        return authResponseMapper.toResponse(tokenHandler.createToken(user));
+        return authResponseMapper.toResponse(tokenHandler.createToken(user, role));
     }
 }
