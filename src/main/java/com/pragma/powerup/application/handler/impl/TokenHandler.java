@@ -3,15 +3,17 @@ package com.pragma.powerup.application.handler.impl;
 import com.pragma.powerup.application.handler.ITokenHandler;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.model.User;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,4 +41,30 @@ public class TokenHandler implements ITokenHandler {
                 .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRET.getBytes()))
                 .compact();
     }
+
+    public UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
+        Claims claims;
+
+        try {
+            claims = Jwts
+                    .parserBuilder()
+                    .setSigningKey(ACCESS_TOKEN_SECRET.getBytes())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }
+        catch (Exception e) {
+            return null;
+        }
+
+        String email =claims.getSubject();
+        List<String> role = claims.get("role", AbstractList.class);
+
+        return new UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                role.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList())
+        );
+    }
+
 }
