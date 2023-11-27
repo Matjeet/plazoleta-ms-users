@@ -13,8 +13,14 @@ import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -28,6 +34,7 @@ public class UserHandler implements IUserHandler {
     private final IPasswordHandler passwordHandler;
     private final IAuthResponseMapper authResponseMapper;
     private final ITokenHandler tokenHandler;
+    private final UserDetailsService userDetailsService;
     private final IRoleDtoMapper roleDtoMapper;
     @Override
     public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
@@ -37,6 +44,16 @@ public class UserHandler implements IUserHandler {
         user.setRoleId(role.getId());
         userServicePort.saveUser(user);
 
-        return authResponseMapper.toResponse(tokenHandler.createToken(user, role));
+        UserDetails userDetails = userDetailsService.loadUserByUsername(registerRequestDto.getEmail());
+        List<String> roles = userDetails
+                .getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+
+        return authResponseMapper.toResponse(
+                tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
+        );
     }
 }
