@@ -35,7 +35,7 @@ public class BeanConfiguration {
 
     @Bean
     public IUserPersistencePort userPersistencePort() {
-        return new UserJpaAdapter(userRepository, userEntityMapper);
+        return new UserJpaAdapter(userRepository, userEntityMapper, roleRepository);
     }
     @Bean
     public IUserServicePort userServicePort() {
