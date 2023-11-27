@@ -20,7 +20,8 @@ public class AuthRestController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> saveUser(@RequestBody RegisterRequestDto registerRequestDto){
-        userHandler.saveUser(registerRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new AuthResponseDto());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userHandler.saveUser(registerRequestDto));
     }
 }
