@@ -24,4 +24,11 @@ public class AuthRestController {
                 .status(HttpStatus.CREATED)
                 .body(userHandler.saveUser(registerRequestDto));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(userHandler.login(loginRequestDto));
+    }
 }
