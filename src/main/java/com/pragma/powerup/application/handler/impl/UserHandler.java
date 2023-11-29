@@ -1,5 +1,6 @@
 package com.pragma.powerup.application.handler.impl;
 
+import com.pragma.powerup.application.dto.request.LoginRequestDto;
 import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 import com.pragma.powerup.application.dto.response.AuthResponseDto;
 import com.pragma.powerup.application.handler.IPasswordHandler;
@@ -55,5 +56,10 @@ public class UserHandler implements IUserHandler {
         return authResponseMapper.toResponse(
                 tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
         );
+    }
+
+    @Override
+    public AuthResponseDto login(LoginRequestDto loginRequestDto) {
+        return null;
     }
 }
