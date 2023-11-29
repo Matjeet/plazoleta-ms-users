@@ -1,5 +1,6 @@
 package com.pragma.powerup.infrastructure.input.rest;
 
+import com.pragma.powerup.application.dto.request.LoginRequestDto;
 import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 import com.pragma.powerup.application.dto.response.AuthResponseDto;
 import com.pragma.powerup.application.handler.IUserHandler;
