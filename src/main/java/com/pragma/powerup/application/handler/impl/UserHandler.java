@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +61,27 @@ public class UserHandler implements IUserHandler {
 
     @Override
     public AuthResponseDto login(LoginRequestDto loginRequestDto) {
+
+        UserDetails userDetails;
+
+        try{
+            userDetails = userDetailsService.loadUserByUsername(loginRequestDto.getEmail());
+        }
+        catch (UsernameNotFoundException e) {
+            return null;
+        }
+
+        if(passwordHandler.decodePassword(loginRequestDto.getPassword(), userDetails.getPassword())) {
+            List<String> roles = userDetails
+                    .getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+
+            return authResponseMapper.toResponse(
+                    tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
+            );
+        }
         return null;
     }
 }
