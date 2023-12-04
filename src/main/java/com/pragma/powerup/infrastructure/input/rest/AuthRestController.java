@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.SyncFailedException;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -21,6 +23,7 @@ public class AuthRestController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> saveUser(@RequestBody RegisterRequestDto registerRequestDto){
+        System.out.println("Llega");
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(userHandler.saveUser(registerRequestDto));
