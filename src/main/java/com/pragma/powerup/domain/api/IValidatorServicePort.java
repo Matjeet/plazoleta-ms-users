@@ -1,8 +1,10 @@
 package com.pragma.powerup.domain.api;
 
+import java.time.LocalDate;
+
 public interface IValidatorServicePort {
 
-    boolean rolesValidator();
+    boolean rolesValidator(String tokenRole, String registerRole);
 
-    boolean ageValidator();
+    boolean ageValidator(LocalDate birthDate);
 }
