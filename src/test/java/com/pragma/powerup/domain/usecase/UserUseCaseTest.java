@@ -24,10 +24,7 @@ class UserUseCaseTest {
 
     @InjectMocks
     private UserUseCase userUseCase;
-    @BeforeEach
-    void setUp(){
-    }
-
+    
     @Test
     void saveUserSuccess() {
         user = new User();
