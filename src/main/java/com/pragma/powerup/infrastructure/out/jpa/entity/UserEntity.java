@@ -1,17 +1,19 @@
 package com.pragma.powerup.infrastructure.out.jpa.entity;
 
+import com.pragma.powerup.domain.Constants;
 import lombok.*;
-
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user")
+@Table(name = Constants.USER)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 public class UserEntity {
+
+    public static final String ROLE_ID = "role_id";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +25,7 @@ public class UserEntity {
     private LocalDate birthDate;
     private String email;
     private String password;
-    private int roleId;
+    @ManyToOne
+    @JoinColumn(name = ROLE_ID, nullable = false)
+    private RoleEntity role;
 }
