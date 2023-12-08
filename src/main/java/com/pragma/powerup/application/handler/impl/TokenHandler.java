@@ -1,6 +1,7 @@
 package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.handler.ITokenHandler;
+import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.model.User;
 import io.jsonwebtoken.Claims;
@@ -22,6 +23,7 @@ public class TokenHandler implements ITokenHandler {
 
     private static final String ACCESS_TOKEN_SECRET = "fa52f4e13bc9557eb253c02ed25d0ecaf9c37a3e";
     private static final int ACCESS_TOKEN_VALIDITY_SECONDS = 10800;
+    private static final String NAME = "name";
     @Override
     public String createToken(String user, String email, List<String> roles) {
 
@@ -29,8 +31,8 @@ public class TokenHandler implements ITokenHandler {
         Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
         Map<String, Object> extra = new HashMap<>();
-        extra.put("name", user);
-        extra.put("role", roles);
+        extra.put(NAME, user);
+        extra.put(Constants.ROLE, roles);
 
         return Jwts
                 .builder()
@@ -57,7 +59,7 @@ public class TokenHandler implements ITokenHandler {
         }
 
         String email =claims.getSubject();
-        List<String> role = claims.get("role", AbstractList.class);
+        List<String> role = claims.get(Constants.ROLE, AbstractList.class);
 
         return new UsernamePasswordAuthenticationToken(
                 email,

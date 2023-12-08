@@ -9,6 +9,7 @@ import com.pragma.powerup.application.handler.IUserHandler;
 import com.pragma.powerup.application.mapper.IRoleDtoMapper;
 import com.pragma.powerup.application.mapper.request.IUserRequestMapper;
 import com.pragma.powerup.application.mapper.response.IAuthResponseMapper;
+import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.api.IValidatorServicePort;
@@ -42,6 +43,9 @@ public class UserHandler implements IUserHandler {
     private final ITokenHandler tokenHandler;
     private final UserDetailsService userDetailsService;
     private final IValidatorServicePort validatorServicePort;
+
+    private static final String TOKEN_ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
+    private static final String TOKEN_EMPTY = "";
     private final IRoleDtoMapper roleDtoMapper;
     @Override
     public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
@@ -52,10 +56,10 @@ public class UserHandler implements IUserHandler {
                 .findFirst().orElse(null);
         String tokenRole =
                 (firstAuthority != null)
-                        ? firstAuthority.getAuthority() : "";
+                        ? firstAuthority.getAuthority() : TOKEN_EMPTY;
 
         if (
-                tokenRole.equals("ROLE_ANONYMOUS") ||
+                tokenRole.equals(TOKEN_ROLE_ANONYMOUS) ||
                 validateRules(
                         tokenRole,
                         registerRequestDto.getRole().getName(),
@@ -79,7 +83,7 @@ public class UserHandler implements IUserHandler {
                     tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
             );
         }
-        return authResponseMapper.toResponse("");
+        return authResponseMapper.toResponse(TOKEN_EMPTY);
     }
 
     @Override
@@ -112,7 +116,7 @@ public class UserHandler implements IUserHandler {
         if(!validatorServicePort.rolesValidator(tokenRole, requestRole)){
             return false;
         }
-        if(requestRole.equals("propietario") && !validatorServicePort.ageValidator(birthDate)){
+        if(requestRole.equals(Constants.REGISTER_ROLE_OWNER) && !validatorServicePort.ageValidator(birthDate)){
             return false;
         }
         return true;

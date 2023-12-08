@@ -25,6 +25,7 @@ public class WebSecurityConfig{
 
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private static final String ENDPOINT_WITHOUT_AUTHENTICATION = "/auth/**";
 
 
     @Bean
@@ -32,7 +33,7 @@ public class WebSecurityConfig{
         return http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/auth/**").permitAll()
+                .antMatchers(HttpMethod.POST, ENDPOINT_WITHOUT_AUTHENTICATION).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()

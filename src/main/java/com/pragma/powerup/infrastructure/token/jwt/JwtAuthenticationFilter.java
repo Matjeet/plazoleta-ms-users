@@ -21,6 +21,7 @@ import java.io.IOException;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final ITokenHandler tokenHandler;
+    private static final String BEARER_TOKEN_PREFIX = "Bearer ";
     @Override
     protected void doFilterInternal
             (
@@ -43,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String getTokenRequest(HttpServletRequest request) {
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if(StringUtils.hasText(authHeader) && authHeader.startsWith("Bearer ")){
+        if(StringUtils.hasText(authHeader) && authHeader.startsWith(BEARER_TOKEN_PREFIX)){
             return authHeader.substring(7);
         }
         return null;

@@ -1,6 +1,7 @@
 package com.pragma.powerup.infrastructure.out.jpa.entity;
 
 
+import com.pragma.powerup.domain.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
+@Table(name = Constants.ROLE)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
