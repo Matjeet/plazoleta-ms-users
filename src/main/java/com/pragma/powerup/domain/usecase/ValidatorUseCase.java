@@ -10,7 +10,7 @@ public class ValidatorUseCase implements IValidatorServicePort {
     @Override
     public boolean rolesValidator(String tokenRole, String registerRole) {
         return tokenRole.equals("ROLE_adminsitrador") && registerRole.equals("administrador") ||
-                tokenRole.equals("ROLE_administrator") && registerRole.equals("propietario") ||
+                tokenRole.equals("ROLE_administrador") && registerRole.equals("propietario") ||
                 tokenRole.equals("ROLE_propietario") && registerRole.equals("empleado");
     }
 

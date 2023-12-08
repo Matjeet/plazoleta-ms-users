@@ -11,16 +11,20 @@ import com.pragma.powerup.application.mapper.request.IUserRequestMapper;
 import com.pragma.powerup.application.mapper.response.IAuthResponseMapper;
 import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.api.IUserServicePort;
+import com.pragma.powerup.domain.api.IValidatorServicePort;
 import com.pragma.powerup.domain.model.Role;
 import com.pragma.powerup.domain.model.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,26 +41,45 @@ public class UserHandler implements IUserHandler {
     private final IAuthResponseMapper authResponseMapper;
     private final ITokenHandler tokenHandler;
     private final UserDetailsService userDetailsService;
+    private final IValidatorServicePort validatorServicePort;
     private final IRoleDtoMapper roleDtoMapper;
     @Override
     public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
-        Role role = roleServicePort.saveRol(userRequestMapper.toRole(registerRequestDto));
-        registerRequestDto.setPassword(passwordHandler.encodePassword(registerRequestDto.getPassword()));
-        User user = userRequestMapper.toUser(registerRequestDto);
-        user.setRoleId(role.getId());
-        userServicePort.saveUser(user);
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(registerRequestDto.getEmail());
-        List<String> roles = userDetails
-                .getAuthorities()
+        Authentication loggerUser = SecurityContextHolder.getContext().getAuthentication();
+        GrantedAuthority firstAuthority = loggerUser.getAuthorities()
                 .stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
+                .findFirst().orElse(null);
+        String tokenRole =
+                (firstAuthority != null)
+                        ? firstAuthority.getAuthority() : "";
 
+        if (
+                tokenRole.equals("ROLE_ANONYMOUS") ||
+                validateRules(
+                        tokenRole,
+                        registerRequestDto.getRole().getName(),
+                        registerRequestDto.getBirthDate()
+                )
+        ) {
+            Role role = roleServicePort.saveRol(userRequestMapper.toRole(registerRequestDto));
+            registerRequestDto.setPassword(passwordHandler.encodePassword(registerRequestDto.getPassword()));
+            User user = userRequestMapper.toUser(registerRequestDto);
+            user.setRoleId(role.getId());
+            userServicePort.saveUser(user);
 
-        return authResponseMapper.toResponse(
-                tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
-        );
+            UserDetails userDetails = userDetailsService.loadUserByUsername(registerRequestDto.getEmail());
+            List<String> roles = userDetails
+                    .getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+
+            return authResponseMapper.toResponse(
+                    tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
+            );
+        }
+        return authResponseMapper.toResponse("");
     }
 
     @Override
@@ -83,5 +106,15 @@ public class UserHandler implements IUserHandler {
             );
         }
         return null;
+    }
+
+    public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
+        if(!validatorServicePort.rolesValidator(tokenRole, requestRole)){
+            return false;
+        }
+        if(requestRole.equals("propietario") && !validatorServicePort.ageValidator(birthDate)){
+            return false;
+        }
+        return true;
     }
 }
