@@ -50,13 +50,7 @@ public class UserHandler implements IUserHandler {
     @Override
     public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
 
-        Authentication loggerUser = SecurityContextHolder.getContext().getAuthentication();
-        GrantedAuthority firstAuthority = loggerUser.getAuthorities()
-                .stream()
-                .findFirst().orElse(null);
-        String tokenRole =
-                (firstAuthority != null)
-                        ? firstAuthority.getAuthority() : TOKEN_EMPTY;
+        String tokenRole = getTokeRole();
 
         if (
                 tokenRole.equals(TOKEN_ROLE_ANONYMOUS) ||
@@ -67,12 +61,16 @@ public class UserHandler implements IUserHandler {
                 )
         ) {
             Role role = roleServicePort.saveRol(userRequestMapper.toRole(registerRequestDto));
-            registerRequestDto.setPassword(passwordHandler.encodePassword(registerRequestDto.getPassword()));
+            registerRequestDto.setPassword(
+                    passwordHandler.encodePassword(registerRequestDto.getPassword())
+            );
             User user = userRequestMapper.toUser(registerRequestDto);
             user.setRoleId(role.getId());
             userServicePort.saveUser(user);
 
-            UserDetails userDetails = userDetailsService.loadUserByUsername(registerRequestDto.getEmail());
+            UserDetails userDetails = userDetailsService.loadUserByUsername(
+                    registerRequestDto.getEmail()
+            );
             List<String> roles = userDetails
                     .getAuthorities()
                     .stream()
@@ -80,7 +78,9 @@ public class UserHandler implements IUserHandler {
                     .collect(Collectors.toList());
 
             return authResponseMapper.toResponse(
-                    tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
+                    tokenHandler.createToken(
+                            userDetails.getUsername(), userDetails.getUsername(), roles
+                    )
             );
         }
         return authResponseMapper.toResponse(TOKEN_EMPTY);
@@ -98,7 +98,8 @@ public class UserHandler implements IUserHandler {
             return null;
         }
 
-        if(passwordHandler.decodePassword(loginRequestDto.getPassword(), userDetails.getPassword())) {
+        if(passwordHandler.decodePassword(loginRequestDto.getPassword(), userDetails.getPassword()))
+        {
             List<String> roles = userDetails
                     .getAuthorities()
                     .stream()
@@ -106,19 +107,34 @@ public class UserHandler implements IUserHandler {
                     .collect(Collectors.toList());
 
             return authResponseMapper.toResponse(
-                    tokenHandler.createToken(userDetails.getUsername(), userDetails.getUsername(), roles)
+                    tokenHandler.createToken(
+                            userDetails.getUsername(), userDetails.getUsername(), roles
+                    )
             );
         }
         return null;
     }
 
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
-        if(!validatorServicePort.rolesValidator(tokenRole, requestRole)){
+        if(!validatorServicePort.rolesValidator(tokenRole, requestRole))
+        {
             return false;
         }
-        if(requestRole.equals(Constants.REGISTER_ROLE_OWNER) && !validatorServicePort.ageValidator(birthDate)){
+        if(requestRole.equals(Constants.REGISTER_ROLE_OWNER) &&
+                !validatorServicePort.ageValidator(birthDate))
+        {
             return false;
         }
         return true;
+    }
+
+    public String getTokeRole() {
+
+        Authentication loggerUser = SecurityContextHolder.getContext().getAuthentication();
+        GrantedAuthority firstAuthority = loggerUser.getAuthorities()
+                .stream()
+                .findFirst().orElse(null);
+        return (firstAuthority != null) ? firstAuthority.getAuthority() : TOKEN_EMPTY;
+
     }
 }
