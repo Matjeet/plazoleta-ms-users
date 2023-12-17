@@ -11,4 +11,6 @@ public interface ITokenHandler {
     String createToken(String user, String email, List<String> role);
 
     UsernamePasswordAuthenticationToken getAuthenticationToken(String token);
+
+    String getTokenRole();
 }

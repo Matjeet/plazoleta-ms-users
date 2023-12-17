@@ -50,7 +50,7 @@ public class UserHandler implements IUserHandler {
     @Override
     public AuthResponseDto saveUser(RegisterRequestDto registerRequestDto) {
 
-        String tokenRole = getTokeRole();
+        String tokenRole = tokenHandler.getTokenRole();
 
         if (
                 tokenRole.equals(TOKEN_ROLE_ANONYMOUS) ||
@@ -128,13 +128,4 @@ public class UserHandler implements IUserHandler {
         return true;
     }
 
-    public String getTokeRole() {
-
-        Authentication loggerUser = SecurityContextHolder.getContext().getAuthentication();
-        GrantedAuthority firstAuthority = loggerUser.getAuthorities()
-                .stream()
-                .findFirst().orElse(null);
-        return (firstAuthority != null) ? firstAuthority.getAuthority() : TOKEN_EMPTY;
-
-    }
 }
