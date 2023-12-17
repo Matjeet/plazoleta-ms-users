@@ -47,6 +47,7 @@ public class TokenHandler implements ITokenHandler {
                 .compact();
     }
 
+    @Override
     public UsernamePasswordAuthenticationToken getAuthenticationToken(String token) {
         Claims claims;
 
@@ -72,6 +73,7 @@ public class TokenHandler implements ITokenHandler {
         );
     }
 
+    @Override
     public String getTokenRole() {
 
         Authentication loggerUser = SecurityContextHolder.getContext().getAuthentication();
