@@ -2,8 +2,6 @@ package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.handler.ITokenHandler;
 import com.pragma.powerup.domain.Constants;
-import com.pragma.powerup.domain.model.Role;
-import com.pragma.powerup.domain.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
