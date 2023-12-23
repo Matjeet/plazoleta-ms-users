@@ -1,12 +1,16 @@
 package com.pragma.powerup.infrastructure.out.jpa.adapter;
 
+import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.infrastructure.exception.UserAlreadyExistsException;
+import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.IUserEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IRoleRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class UserJpaAdapter implements IUserPersistencePort {
@@ -30,5 +34,15 @@ public class UserJpaAdapter implements IUserPersistencePort {
                         roleRepository.getById(user.getRoleId())
                 )
         );
+    }
+
+    @Override
+    public boolean validateOwnerRole(int id) {
+        Optional<UserEntity> ownerInfo = userRepository.findById(id);
+        if(ownerInfo.isPresent()){
+            UserEntity owner = ownerInfo.get();
+            return owner.getRole().getName().equals(Constants.OWNER);
+        }
+        return false;
     }
 }
