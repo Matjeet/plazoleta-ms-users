@@ -26,6 +26,7 @@ public class WebSecurityConfig{
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String ENDPOINT_WITHOUT_AUTHENTICATION = "/auth/**";
+    private static final String DOCUMENTATION_URL = "/swagger-ui/index.html";
 
 
     @Bean
@@ -34,6 +35,7 @@ public class WebSecurityConfig{
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, ENDPOINT_WITHOUT_AUTHENTICATION).permitAll()
+                .antMatchers(DOCUMENTATION_URL, "/v3/api-docs/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
