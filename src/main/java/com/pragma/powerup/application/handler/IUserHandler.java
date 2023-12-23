@@ -9,4 +9,6 @@ public interface IUserHandler {
     AuthResponseDto saveUser(RegisterRequestDto registerRequestDto);
 
     AuthResponseDto login(LoginRequestDto loginRequestDto);
+
+    boolean validateOwnerRole(int id);
 }

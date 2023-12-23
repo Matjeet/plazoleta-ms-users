@@ -116,6 +116,11 @@ public class UserHandler implements IUserHandler {
         return null;
     }
 
+    @Override
+    public boolean validateOwnerRole(int id) {
+        return userServicePort.validateOwnerRole(id);
+    }
+
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
         if(!validatorServicePort.rolesValidator(tokenRole, requestRole))
         {
