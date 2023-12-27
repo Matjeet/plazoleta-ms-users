@@ -54,7 +54,7 @@ public class UserHandler implements IUserHandler {
 
         if (
                 tokenRole.equals(TOKEN_ROLE_ANONYMOUS) &&
-                        registerRequestDto.getRole().getName().isEmpty() ||
+                        registerRequestDto.getRole().getName().equals("cliente") ||
                 validateRules(
                         tokenRole,
                         registerRequestDto.getRole().getName(),
