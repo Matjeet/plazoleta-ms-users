@@ -28,7 +28,20 @@ public class WebSecurityConfig{
     private final UserDetailsService userDetailsService;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private static final String ENDPOINT_WITHOUT_AUTHENTICATION = "/auth/**";
-    private static final String DOCUMENTATION_URL = "/swagger-ui/index.html";
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "/swagger-resources",
+            "/swagger-resources/**",
+            "/configuration/ui",
+            "/configuration/security",
+            "/swagger-ui.html",
+            "/webjars/**",
+            // -- Swagger UI v3 (OpenAPI)
+            "/v3/api-docs/**",
+            "/swagger-ui/**"
+            // other public endpoints of your API may be appended to this array
+    };
 
 
     @Bean
@@ -37,7 +50,7 @@ public class WebSecurityConfig{
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, ENDPOINT_WITHOUT_AUTHENTICATION).permitAll()
-                .antMatchers(DOCUMENTATION_URL, "/v3/api-docs/**").permitAll()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .sessionManagement()
