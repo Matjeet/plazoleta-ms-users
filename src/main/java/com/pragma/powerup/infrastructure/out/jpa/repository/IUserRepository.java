@@ -10,4 +10,6 @@ public interface IUserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByDocumentIdAndRoleId(String documentId, int roleId);
 
     Optional<UserEntity> findByEmail(String email);
+
+    Optional<UserEntity> findById(int id);
 }

@@ -6,6 +6,8 @@ spring:
     url: jdbc:mysql://localhost:3306/users
     username: root
     password:
+  application:
+    name: "microservice-users"
 
   jpa:
     hibernate:

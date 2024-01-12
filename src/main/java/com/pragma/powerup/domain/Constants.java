@@ -9,4 +9,6 @@ public class Constants {
     public static final String TOKEN_ROLE_OWNER = "ROLE_propietario";
     public static final String USER = "user";
     public static final String ROLE = "role";
+
+    public static final String OWNER = "propietario";
 }

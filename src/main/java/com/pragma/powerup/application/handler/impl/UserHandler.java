@@ -54,7 +54,7 @@ public class UserHandler implements IUserHandler {
 
         if (
                 tokenRole.equals(TOKEN_ROLE_ANONYMOUS) &&
-                        registerRequestDto.getRole().getName().isEmpty() ||
+                        registerRequestDto.getRole().getName().equals("cliente") ||
                 validateRules(
                         tokenRole,
                         registerRequestDto.getRole().getName(),
@@ -114,6 +114,11 @@ public class UserHandler implements IUserHandler {
             );
         }
         return null;
+    }
+
+    @Override
+    public boolean validateOwnerRole(int id) {
+        return userServicePort.validateOwnerRole(id);
     }
 
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){

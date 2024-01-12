@@ -46,4 +46,9 @@ public class UserUseCase implements IUserServicePort {
             throw new ParamaterNotValidException();
         }
     }
+
+    @Override
+    public boolean validateOwnerRole(int id) {
+        return iUserPersistencePort.validateOwnerRole(id);
+    }
 }
