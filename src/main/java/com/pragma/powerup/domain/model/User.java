@@ -14,8 +14,9 @@ public class User {
     private String email;
     private String password;
     private int roleId;
+    private int restaurantId;
 
-    public User(int id, String name, String lastName, String documentId, String phoneNumber, LocalDate birthDate, String email, String password, int roleId) {
+    public User(int id, String name, String lastName, String documentId, String phoneNumber, LocalDate birthDate, String email, String password, int roleId, int restaurantId) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -25,6 +26,7 @@ public class User {
         this.email = email;
         this.password = password;
         this.roleId = roleId;
+        this.restaurantId = restaurantId;
     }
 
     public User() {
@@ -100,5 +102,13 @@ public class User {
 
     public void setRoleId(int roleId) {
         this.roleId = roleId;
+    }
+
+    public int getRestaurantId() {
+        return restaurantId;
+    }
+
+    public void setRestaurantId(int restaurantId) {
+        this.restaurantId = restaurantId;
     }
 }
