@@ -14,7 +14,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-public class RestaurantEmployee {
+public class RestaurantEmployeeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
