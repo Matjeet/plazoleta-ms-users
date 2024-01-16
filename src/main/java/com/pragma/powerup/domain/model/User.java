@@ -14,9 +14,9 @@ public class User {
     private String email;
     private String password;
     private int roleId;
-    private int restaurantId;
+    private Integer restaurantId;
 
-    public User(int id, String name, String lastName, String documentId, String phoneNumber, LocalDate birthDate, String email, String password, int roleId, int restaurantId) {
+    public User(int id, String name, String lastName, String documentId, String phoneNumber, LocalDate birthDate, String email, String password, int roleId, Integer restaurantId) {
         this.id = id;
         this.name = name;
         this.lastName = lastName;
@@ -104,11 +104,11 @@ public class User {
         this.roleId = roleId;
     }
 
-    public int getRestaurantId() {
+    public Integer getRestaurantId() {
         return restaurantId;
     }
 
-    public void setRestaurantId(int restaurantId) {
+    public void setRestaurantId(Integer restaurantId) {
         this.restaurantId = restaurantId;
     }
 }
