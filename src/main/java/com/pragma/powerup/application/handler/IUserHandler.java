@@ -11,4 +11,6 @@ public interface IUserHandler {
     AuthResponseDto login(LoginRequestDto loginRequestDto);
 
     boolean validateOwnerRole(int id);
+
+    boolean validateRestaurantEmployee(int idEmployee, int idRestaurant);
 }
