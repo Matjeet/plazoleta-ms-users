@@ -4,6 +4,7 @@ import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.domain.spi.IUserPersistencePort;
 import com.pragma.powerup.infrastructure.exception.UserAlreadyExistsException;
+import com.pragma.powerup.infrastructure.out.jpa.entity.RestaurantEmployeeEntity;
 import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.IRestaurantEmployeeEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.IUserEntityMapper;
@@ -69,6 +70,12 @@ public class UserJpaAdapter implements IUserPersistencePort {
 
     @Override
     public boolean validateRestaurantEmployee(int idEmployee, int idRestaurant) {
+
+        UserEntity userEntity = userRepository.getReferenceById(idEmployee);
+        if (userEntity.getRole().getName().equals(Constants.EMPLOYEE)){
+            RestaurantEmployeeEntity employeeEntity = restaurantEmployeeRepository.findByEmployee(userEntity);
+            return employeeEntity.getRestaurantId() == idRestaurant;
+        }
         return false;
     }
 }
