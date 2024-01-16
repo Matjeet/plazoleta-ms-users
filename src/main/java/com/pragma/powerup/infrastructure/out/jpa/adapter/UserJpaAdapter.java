@@ -45,4 +45,9 @@ public class UserJpaAdapter implements IUserPersistencePort {
         }
         return false;
     }
+
+    @Override
+    public boolean validateRestaurantEmployee(int idEmployee, int idRestaurant) {
+        return false;
+    }
 }
