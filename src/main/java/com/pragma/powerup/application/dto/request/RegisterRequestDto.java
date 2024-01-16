@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Getter
 @Setter
 public class RegisterRequestDto {
+
     private String id;
     private String name;
     private String lastName;
@@ -18,4 +20,5 @@ public class RegisterRequestDto {
     private String email;
     private String password;
     private Role role;
+    private Integer restaurantId = null;
 }
