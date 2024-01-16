@@ -10,8 +10,10 @@ import com.pragma.powerup.domain.usecase.UserUseCase;
 import com.pragma.powerup.domain.usecase.ValidatorUseCase;
 import com.pragma.powerup.infrastructure.out.jpa.adapter.RoleJpaAdapter;
 import com.pragma.powerup.infrastructure.out.jpa.adapter.UserJpaAdapter;
+import com.pragma.powerup.infrastructure.out.jpa.mapper.IRestaurantEmployeeEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.IRoleEntityMapper;
 import com.pragma.powerup.infrastructure.out.jpa.mapper.IUserEntityMapper;
+import com.pragma.powerup.infrastructure.out.jpa.repository.IRestaurantEmployeeRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IRoleRepository;
 import com.pragma.powerup.infrastructure.out.jpa.repository.IUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +28,19 @@ public class BeanConfiguration {
     private final IRoleRepository roleRepository;
     private final IUserEntityMapper userEntityMapper;
     private final IRoleEntityMapper roleEntityMapper;
+    private final IRestaurantEmployeeRepository restaurantEmployeeRepository;
+    private final IRestaurantEmployeeEntityMapper restaurantEmployeeEntityMapper;
 
 
     @Bean
     public IUserPersistencePort userPersistencePort() {
-        return new UserJpaAdapter(userRepository, userEntityMapper, roleRepository);
+        return new UserJpaAdapter(
+                userRepository,
+                userEntityMapper,
+                roleRepository,
+                restaurantEmployeeRepository,
+                restaurantEmployeeEntityMapper
+        );
     }
     @Bean
     public IUserServicePort userServicePort() {
