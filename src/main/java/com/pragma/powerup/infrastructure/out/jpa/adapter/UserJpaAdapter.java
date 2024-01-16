@@ -41,13 +41,19 @@ public class UserJpaAdapter implements IUserPersistencePort {
                 )
         );
 
-        if (user.getRestaurantId() != null){
+        if (
+                user.getRestaurantId() != null &&
+                roleRepository.getReferenceById(user.getRoleId()).getName().equals("empleado")
+        ){
             restaurantEmployeeRepository.save(
                     restaurantEmployeeEntityMapper.toRestaurantEmployeeEntity(
                             userEntity,
                             user.getRestaurantId()
                     )
             );
+        }
+        else {
+            throw new IllegalArgumentException();
         }
     }
 
