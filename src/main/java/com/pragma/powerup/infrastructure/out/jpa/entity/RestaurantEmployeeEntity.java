@@ -19,7 +19,7 @@ public class RestaurantEmployeeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private int idRestaurant;
+    private int restaurantId;
 
     @ManyToOne
     @JoinColumn(name = "employee_id", nullable = false)
