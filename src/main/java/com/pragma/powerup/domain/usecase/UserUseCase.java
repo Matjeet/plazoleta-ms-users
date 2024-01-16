@@ -51,4 +51,9 @@ public class UserUseCase implements IUserServicePort {
     public boolean validateOwnerRole(int id) {
         return iUserPersistencePort.validateOwnerRole(id);
     }
+
+    @Override
+    public boolean validateRestaurantEmployee(int idEmployee, int idRestaurant) {
+        return iUserPersistencePort.validateRestaurantEmployee(idEmployee, idRestaurant);
+    }
 }

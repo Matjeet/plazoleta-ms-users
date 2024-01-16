@@ -6,4 +6,6 @@ public interface IUserPersistencePort {
     void saveUser(User user);
 
     boolean validateOwnerRole(int id);
+
+    boolean validateRestaurantEmployee(int idEmployee, int idRestaurant);
 }
