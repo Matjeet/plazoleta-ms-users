@@ -22,7 +22,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
-@Profile("dev")
+//@Profile("dev")
 public class WebSecurityConfig{
 
     private final UserDetailsService userDetailsService;
