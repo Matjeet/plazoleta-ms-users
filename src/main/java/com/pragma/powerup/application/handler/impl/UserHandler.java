@@ -3,12 +3,15 @@ package com.pragma.powerup.application.handler.impl;
 import com.pragma.powerup.application.dto.request.LoginRequestDto;
 import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 import com.pragma.powerup.application.dto.response.AuthResponseDto;
+import com.pragma.powerup.application.dto.response.UserInfoResponseDto;
+import com.pragma.powerup.application.exception.UserIsNotAClientException;
 import com.pragma.powerup.application.handler.IPasswordHandler;
 import com.pragma.powerup.application.handler.ITokenHandler;
 import com.pragma.powerup.application.handler.IUserHandler;
 import com.pragma.powerup.application.mapper.IRoleDtoMapper;
 import com.pragma.powerup.application.mapper.request.IUserRequestMapper;
 import com.pragma.powerup.application.mapper.response.IAuthResponseMapper;
+import com.pragma.powerup.application.mapper.response.IUserResponseMapper;
 import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.api.IUserServicePort;
@@ -43,6 +46,7 @@ public class UserHandler implements IUserHandler {
     private final ITokenHandler tokenHandler;
     private final UserDetailsService userDetailsService;
     private final IValidatorServicePort validatorServicePort;
+    private final IUserResponseMapper userResponseMapper;
 
     private static final String TOKEN_ROLE_ANONYMOUS = "ROLE_ANONYMOUS";
     private static final String TOKEN_EMPTY = "";
@@ -127,9 +131,15 @@ public class UserHandler implements IUserHandler {
     }
 
     @Override
-    public boolean validateClientRole(int idClient) {
-        return userServicePort.validateClientRole(idClient);
+    public UserInfoResponseDto getClient(int idClient) {
+        if(userServicePort.validateClientRole(idClient)){
+            return userResponseMapper.toUserInfoDto(userServicePort.getUser(idClient));
+        }
+        else {
+            throw new UserIsNotAClientException();
+        }
     }
+
 
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
         if(!validatorServicePort.rolesValidator(tokenRole, requestRole))
