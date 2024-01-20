@@ -16,7 +16,5 @@ public class UserInfoResponseDto {
     private String phoneNumber;
     private LocalDate birthDate;
     private String email;
-    private String password;
     private int roleId;
-    private Integer restaurantId;
 }
