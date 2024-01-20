@@ -84,7 +84,7 @@ public class UserJpaAdapter implements IUserPersistencePort {
     public boolean validateClientRole(int idClient) {
 
         UserEntity userEntity;
-        
+
         try{
             userEntity = userRepository.getReferenceById(idClient);
         }

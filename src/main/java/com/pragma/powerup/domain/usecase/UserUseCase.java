@@ -61,4 +61,9 @@ public class UserUseCase implements IUserServicePort {
     public boolean validateClientRole(int idClient) {
         return iUserPersistencePort.validateClientRole(idClient);
     }
+
+    @Override
+    public User getUser(int idUser) {
+        return iUserPersistencePort.getUser(idUser);
+    }
 }
