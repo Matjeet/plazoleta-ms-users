@@ -9,4 +9,8 @@ public interface IUserServicePort {
     boolean validateOwnerRole(int id);
 
     boolean validateRestaurantEmployee(int idEmployee, int idRestaurant);
+
+    boolean validateClientRole(int idClient);
+
+    User getUser(int idUser);
 }
