@@ -128,7 +128,7 @@ public class UserHandler implements IUserHandler {
 
     @Override
     public boolean validateClientRole(int idClient) {
-        return userServicePort.validateClient(idClient);
+        return userServicePort.validateClientRole(idClient);
     }
 
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
