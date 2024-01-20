@@ -17,5 +17,6 @@ public interface IUserEntityMapper {
     UserEntity toEntity(User user, RoleEntity role);
 
     @Mapping(source = "userEntity.role.id", target = "roleId")
-    User toUser(UserEntity userEntity);
+    @Mapping(source = "restaurantId", target = "restaurantId")
+    User toUser(UserEntity userEntity, Integer restaurantId);
 }
