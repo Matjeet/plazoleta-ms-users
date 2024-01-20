@@ -3,6 +3,7 @@ package com.pragma.powerup.infrastructure.out.jpa.adapter;
 import com.pragma.powerup.domain.Constants;
 import com.pragma.powerup.domain.model.User;
 import com.pragma.powerup.domain.spi.IUserPersistencePort;
+import com.pragma.powerup.infrastructure.exception.NoDataFoundException;
 import com.pragma.powerup.infrastructure.exception.UserAlreadyExistsException;
 import com.pragma.powerup.infrastructure.out.jpa.entity.RestaurantEmployeeEntity;
 import com.pragma.powerup.infrastructure.out.jpa.entity.UserEntity;
@@ -77,5 +78,20 @@ public class UserJpaAdapter implements IUserPersistencePort {
             return employeeEntity.getRestaurantId() == idRestaurant;
         }
         return false;
+    }
+
+    @Override
+    public boolean validateClientRole(int idClient) {
+
+        UserEntity userEntity;
+        
+        try{
+            userEntity = userRepository.getReferenceById(idClient);
+        }
+        catch (Exception e){
+            throw new NoDataFoundException();
+        }
+
+        return userEntity.getRole().getName().equals(Constants.CLIENT);
     }
 }
