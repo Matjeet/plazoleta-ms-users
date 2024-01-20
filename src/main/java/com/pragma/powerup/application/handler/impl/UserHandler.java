@@ -126,6 +126,11 @@ public class UserHandler implements IUserHandler {
         return userServicePort.validateRestaurantEmployee(idEmployee, idRestaurant);
     }
 
+    @Override
+    public boolean validateClientRole(int idClient) {
+        return userServicePort.validateClient(idClient);
+    }
+
     public boolean validateRules(String tokenRole, String requestRole, LocalDate birthDate){
         if(!validatorServicePort.rolesValidator(tokenRole, requestRole))
         {
