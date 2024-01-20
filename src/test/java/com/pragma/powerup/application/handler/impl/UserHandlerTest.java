@@ -2,10 +2,13 @@ package com.pragma.powerup.application.handler.impl;
 
 import com.pragma.powerup.application.dto.request.RegisterRequestDto;
 import com.pragma.powerup.application.dto.response.AuthResponseDto;
+import com.pragma.powerup.application.dto.response.UserInfoResponseDto;
+import com.pragma.powerup.application.exception.UserIsNotAClientException;
 import com.pragma.powerup.application.handler.IPasswordHandler;
 import com.pragma.powerup.application.handler.ITokenHandler;
 import com.pragma.powerup.application.mapper.request.IUserRequestMapper;
 import com.pragma.powerup.application.mapper.response.IAuthResponseMapper;
+import com.pragma.powerup.application.mapper.response.IUserResponseMapper;
 import com.pragma.powerup.domain.api.IRoleServicePort;
 import com.pragma.powerup.domain.api.IUserServicePort;
 import com.pragma.powerup.domain.api.IValidatorServicePort;
@@ -23,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.util.Collections;
 
@@ -38,6 +42,7 @@ class UserHandlerTest {
     private User user;
     private RegisterRequestDto registerRequestDto;
     private AuthResponseDto authResponseDto;
+    private UserInfoResponseDto userInfoResponseDto;
     @InjectMocks
     private UserHandler userHandler;
     @Mock
@@ -60,19 +65,15 @@ class UserHandlerTest {
     private SecurityContext securityContext;
     @Mock
     private Authentication authentication;
+    @Mock
+    private IUserResponseMapper userResponseMapper;
     @BeforeEach
     void setUp() {
         user = new User();
         role = new Role();
         registerRequestDto = new RegisterRequestDto();
         authResponseDto = new AuthResponseDto();
-    }
-
-    @Test
-    void saveUserSuccessRules() {
-
-        role.setId(1);
-        role.setName("administrador");
+        userInfoResponseDto = new UserInfoResponseDto();
 
         user.setId(1);
         user.setName("Mateo");
@@ -83,6 +84,14 @@ class UserHandlerTest {
         user.setEmail("matius29002@gmail.com");
         user.setPassword("1234");
         user.setRoleId(1);
+        user.setRestaurantId(null);
+    }
+
+    @Test
+    void saveUserSuccessRules() {
+
+        role.setId(1);
+        role.setName("administrador");
 
         registerRequestDto.setId("1");
         registerRequestDto.setName("Mateo");
@@ -173,5 +182,40 @@ class UserHandlerTest {
 
     @Test
     void getTokeRole() {
+    }
+
+    @Test
+    void getClientSuccess(){
+
+        userInfoResponseDto.setId(1);
+        userInfoResponseDto.setName("");
+        userInfoResponseDto.setLastName("");
+        userInfoResponseDto.setDocumentId("");
+        userInfoResponseDto.setPhoneNumber("");
+        userInfoResponseDto.setBirthDate(LocalDate.of(1,1,1));
+        userInfoResponseDto.setEmail("");
+        userInfoResponseDto.setRoleId(1);
+
+        when(userServicePort.validateClientRole(anyInt())).thenReturn(true);
+        when(userServicePort.getUser(anyInt())).thenReturn(user);
+        when(userResponseMapper.toUserInfoDto(user)).thenReturn(userInfoResponseDto);
+
+        UserInfoResponseDto result = userHandler.getClient(anyInt());
+
+        verify(userServicePort,times(1)).validateClientRole(anyInt());
+        verify(userServicePort,times(1)).getUser(anyInt());
+        verify(userResponseMapper, times(1)).toUserInfoDto(user);
+        assertInstanceOf(UserInfoResponseDto.class, result);
+    }
+
+    @Test
+    void getClientFailed(){
+        when(userServicePort.validateClientRole(anyInt())).thenReturn(false);
+
+        UserIsNotAClientException exception = assertThrows(UserIsNotAClientException.class, () -> {
+            userHandler.getClient(1);
+        }, "No exception was made");
+
+        assertNull(exception.getMessage());
     }
 }
